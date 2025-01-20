@@ -20,7 +20,7 @@ public class Login extends javax.swing.JFrame {
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
+    public static String loginUsername;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,7 +38,7 @@ public class Login extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField1 = new javax.swing.JTextField();
+        loginEmailField = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
@@ -123,14 +123,21 @@ public class Login extends javax.swing.JFrame {
         );
 
         jPasswordField1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
-        jPasswordField1.setText("jPasswordField1");
         jPasswordField1.setActionCommand("<Not Set>");
         jPasswordField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
-        jTextField1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
-        jTextField1.setText("name@example.com"); // NOI18N
-        jTextField1.setActionCommand("<Not Set>");
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        loginEmailField.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
+        loginEmailField.setText("name@example.com"); // NOI18N
+        loginEmailField.setActionCommand("<Not Set>");
+        loginEmailField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        loginEmailField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                loginEmailFieldFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                loginEmailFieldFocusLost(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jLabel3.setText("Email ");
@@ -168,7 +175,7 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(loginButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jCheckBox1)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField1)
+                    .addComponent(loginEmailField)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -182,7 +189,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addComponent(jLabel3)
                 .addGap(16, 16, 16)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loginEmailField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addGap(12, 12, 12)
@@ -217,9 +224,23 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_backRegisterButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        Login.loginUsername = loginEmailField.getText();
+        
         dispose();
         new Dashboard().setVisible(true);
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void loginEmailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loginEmailFieldFocusGained
+        if(loginEmailField.getText().equals("name@example.com")){
+            loginEmailField.setText("");
+        }
+    }//GEN-LAST:event_loginEmailFieldFocusGained
+
+    private void loginEmailFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loginEmailFieldFocusLost
+        if(loginEmailField.getText().isEmpty()){
+            loginEmailField.setText("name@example.com");
+        }
+    }//GEN-LAST:event_loginEmailFieldFocusLost
 
     /**
      * @param args the command line arguments
@@ -269,7 +290,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton loginButton;
+    private javax.swing.JTextField loginEmailField;
     // End of variables declaration//GEN-END:variables
+
 }

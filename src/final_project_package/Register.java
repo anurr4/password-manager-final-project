@@ -5,6 +5,7 @@
 package final_project_package;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,8 +20,12 @@ public class Register extends javax.swing.JFrame {
         initComponents();
         setTitle("Register");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
-
+    public static String username;
+    public static String email;
+    public static String password;
+    public static String confirmPassword;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,7 +49,7 @@ public class Register extends javax.swing.JFrame {
         registerButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        usernameField = new javax.swing.JTextField();
         jPasswordField2 = new javax.swing.JPasswordField();
         jLabel9 = new javax.swing.JLabel();
 
@@ -165,9 +170,9 @@ public class Register extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         jLabel8.setText("Username");
 
-        jTextField2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
-        jTextField2.setActionCommand("<Not Set>");
-        jTextField2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        usernameField.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
+        usernameField.setActionCommand("<Not Set>");
+        usernameField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jPasswordField2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
         jPasswordField2.setActionCommand("<Not Set>");
@@ -192,7 +197,7 @@ public class Register extends javax.swing.JFrame {
                         .addComponent(jLabel2)
                         .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
                         .addComponent(jLabel8)
-                        .addComponent(jTextField2))
+                        .addComponent(usernameField))
                     .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addGap(43, 43, 43))
@@ -205,7 +210,7 @@ public class Register extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(usernameField, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -246,7 +251,28 @@ public class Register extends javax.swing.JFrame {
     }//GEN-LAST:event_backLoginButtonActionPerformed
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
-        // TODO add your handling code here:
+        Register.username = usernameField.getText();
+        Register.email = emailRegisterField.getText();
+        Register.password = new String(jPasswordField1.getPassword());
+        Register.confirmPassword = new String(jPasswordField2.getPassword());
+        
+        if (!Validator.isValidEmail(email)) {
+            JOptionPane.showMessageDialog(null, "Invalid email format. Please enter a valid email.");
+            return;
+        }
+
+        if (!Validator.isValidPassword(password)) {
+            JOptionPane.showMessageDialog(null, "Password must be at least 8 characters long and include an uppercase letter, a lowercase letter, a digit, and a special character.");
+            return;
+        }
+        
+        if(UserRegistration.registerUser(username, email, password, confirmPassword)){
+            JOptionPane.showMessageDialog(null, "Registration Successful!");
+            new Login().setVisible(true);
+            dispose();
+        }else{
+            JOptionPane.showMessageDialog(null, "Registration Failed. Please check your inputs or try a different username.");
+        }
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void emailRegisterFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailRegisterFieldFocusGained
@@ -312,7 +338,7 @@ public class Register extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JButton registerButton;
+    private javax.swing.JTextField usernameField;
     // End of variables declaration//GEN-END:variables
 }

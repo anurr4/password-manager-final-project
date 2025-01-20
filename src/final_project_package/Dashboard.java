@@ -11,16 +11,18 @@ import javax.swing.JFrame;
  * @author Anurra
  */
 public class Dashboard extends javax.swing.JFrame {
-
     /**
      * Creates new form Dashboard
      */
+    private PasswordGenerator passwordGenerator;
     public Dashboard() {
         initComponents();
         setTitle("Password Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
         usernameLabel.setText(Login.loginUsername);
         usernameDisplayLabel.setText(Login.loginUsername);
+        passwordGenerator = new PasswordGenerator();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,14 +62,14 @@ public class Dashboard extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        passwordOutputField = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
-        jToggleButton1 = new javax.swing.JToggleButton();
-        jToggleButton2 = new javax.swing.JToggleButton();
-        jToggleButton3 = new javax.swing.JToggleButton();
-        jToggleButton4 = new javax.swing.JToggleButton();
-        jButton7 = new javax.swing.JButton();
+        passwordLengthInputArea = new javax.swing.JTextField();
+        uppercaseToggle = new javax.swing.JToggleButton();
+        lowercaseToggle = new javax.swing.JToggleButton();
+        numbersToggle = new javax.swing.JToggleButton();
+        symbolsToggle = new javax.swing.JToggleButton();
+        generatePasswordButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -368,102 +370,106 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Franklin Gothic Book", 0, 28)); // NOI18N
         jLabel7.setText("Password Generator");
 
-        jTextField4.setEditable(false);
-        jTextField4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        passwordOutputField.setEditable(false);
+        passwordOutputField.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Franklin Gothic Book", 0, 24)); // NOI18N
         jLabel8.setText("Password Length");
 
-        jTextField5.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        passwordLengthInputArea.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
 
-        jToggleButton1.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jToggleButton1.setText("Uppercase");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+        uppercaseToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        uppercaseToggle.setText("Uppercase");
+        uppercaseToggle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
+                uppercaseToggleActionPerformed(evt);
             }
         });
 
-        jToggleButton2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jToggleButton2.setText("Lowercase");
-        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
+        lowercaseToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        lowercaseToggle.setText("Lowercase");
+        lowercaseToggle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton2ActionPerformed(evt);
+                lowercaseToggleActionPerformed(evt);
             }
         });
 
-        jToggleButton3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jToggleButton3.setText("Numbers");
-        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+        numbersToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        numbersToggle.setText("Numbers");
+        numbersToggle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton3ActionPerformed(evt);
+                numbersToggleActionPerformed(evt);
             }
         });
 
-        jToggleButton4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jToggleButton4.setText("Symbols");
-        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+        symbolsToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        symbolsToggle.setText("Symbols");
+        symbolsToggle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton4ActionPerformed(evt);
+                symbolsToggleActionPerformed(evt);
             }
         });
 
-        jButton7.setBackground(new java.awt.Color(18, 100, 221));
-        jButton7.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jButton7.setForeground(new java.awt.Color(255, 255, 255));
-        jButton7.setText("Generate");
+        generatePasswordButton.setBackground(new java.awt.Color(18, 100, 221));
+        generatePasswordButton.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        generatePasswordButton.setForeground(new java.awt.Color(255, 255, 255));
+        generatePasswordButton.setText("Generate");
+        generatePasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generatePasswordButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(239, 239, 239)
-                        .addComponent(jLabel7))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(192, 192, 192)
+                .addGap(239, 239, 239)
+                .addComponent(jLabel7)
+                .addContainerGap(248, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(passwordOutputField, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(numbersToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(uppercaseToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jToggleButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jToggleButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField5)
-                                    .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jToggleButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(298, 298, 298)
-                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(190, Short.MAX_VALUE))
+                            .addComponent(passwordLengthInputArea, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lowercaseToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(symbolsToggle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(189, 189, 189))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(generatePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(296, 296, 296))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(passwordOutputField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(passwordLengthInputArea, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lowercaseToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(uppercaseToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(numbersToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(symbolsToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(28, 28, 28)
+                .addComponent(generatePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Generate Passwords", jPanel5);
@@ -523,21 +529,21 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+    private void uppercaseToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uppercaseToggleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    }//GEN-LAST:event_uppercaseToggleActionPerformed
 
-    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+    private void lowercaseToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowercaseToggleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton2ActionPerformed
+    }//GEN-LAST:event_lowercaseToggleActionPerformed
 
-    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+    private void numbersToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numbersToggleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton3ActionPerformed
+    }//GEN-LAST:event_numbersToggleActionPerformed
 
-    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+    private void symbolsToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_symbolsToggleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton4ActionPerformed
+    }//GEN-LAST:event_symbolsToggleActionPerformed
 
     private void appNameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_appNameFieldFocusGained
         if(appNameField.getText().equals("Application Name")){
@@ -587,6 +593,18 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passwordPMFieldFocusLost
 
+    private void generatePasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generatePasswordButtonActionPerformed
+        if(passwordLengthInputArea.getText().length() <= 0) return;
+        boolean anyToggleSelected = lowercaseToggle.isSelected() || uppercaseToggle.isSelected() || numbersToggle.isSelected() || symbolsToggle.isSelected(); 
+        
+        int passwordLength = Integer.parseInt(passwordLengthInputArea.getText());
+        if(anyToggleSelected){
+            String generatedPassword = passwordGenerator.generatePassword(passwordLength, uppercaseToggle.isSelected(), lowercaseToggle.isSelected(), numbersToggle.isSelected(), symbolsToggle.isSelected());
+            
+            passwordOutputField.setText(generatedPassword);
+        }
+    }//GEN-LAST:event_generatePasswordButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -626,13 +644,13 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JTextField accountOutput;
     private javax.swing.JTextField appNameField;
     private javax.swing.JTextField emailPMField;
+    private javax.swing.JButton generatePasswordButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -648,15 +666,15 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JToggleButton jToggleButton2;
-    private javax.swing.JToggleButton jToggleButton3;
-    private javax.swing.JToggleButton jToggleButton4;
+    private javax.swing.JToggleButton lowercaseToggle;
+    private javax.swing.JToggleButton numbersToggle;
+    private javax.swing.JTextField passwordLengthInputArea;
     private javax.swing.JTextField passwordOutput;
+    private javax.swing.JTextField passwordOutputField;
     private javax.swing.JTextField passwordPMField;
     private javax.swing.JTextField searchField;
+    private javax.swing.JToggleButton symbolsToggle;
+    private javax.swing.JToggleButton uppercaseToggle;
     private javax.swing.JLabel usernameDisplayLabel;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernamePMField;

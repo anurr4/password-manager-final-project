@@ -5,6 +5,7 @@
 package final_project_package;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -19,8 +20,10 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
     }
     public static String loginUsername;
+    public static String password;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -225,9 +228,14 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         Login.loginUsername = loginEmailField.getText();
-        
-        dispose();
-        new Dashboard().setVisible(true);
+        Login.password = new String(jPasswordField1.getPassword());
+        if(UserLogin.loginUser(loginUsername, password)){
+            JOptionPane.showMessageDialog(null, "Login Successful!");
+            new Dashboard().setVisible(true);
+            dispose();
+        }else {
+            JOptionPane.showMessageDialog(null, "Invalid username or password");
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void loginEmailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loginEmailFieldFocusGained

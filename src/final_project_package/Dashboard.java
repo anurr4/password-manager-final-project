@@ -1,22 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package final_project_package;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Anurra
- */
 public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
@@ -24,6 +13,7 @@ public class Dashboard extends javax.swing.JFrame {
     private PasswordGenerator passwordGenerator;
     private FileManager fileManager;
     private DefaultTableModel model;
+    private DefaultTableModel searchModel;
     private List<PasswordEntry> passwords;
     
     public Dashboard() {
@@ -35,7 +25,8 @@ public class Dashboard extends javax.swing.JFrame {
         usernameDisplayLabel.setText(Login.loginUsername);
         passwordGenerator = new PasswordGenerator();
         model = (DefaultTableModel) passwordTable.getModel();
-        fileManager = new FileManager("Database/" + Login.loginUsername + "/passwords.txt");
+        searchModel = (DefaultTableModel) searchPasswordTable.getModel();
+        fileManager = new FileManager("Database/" + Login.loginUsername + "/passwords");
         try {
             passwords = fileManager.readPasswords();
         } catch (Exception e) {
@@ -43,6 +34,7 @@ public class Dashboard extends javax.swing.JFrame {
         }
         
         loadPasswordsToTable();
+        countPasswords();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,14 +52,12 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         usernameDisplayLabel = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        passwordCountLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         searchField = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        accountOutput = new javax.swing.JTextField();
-        passwordOutput = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        searchPasswordTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         appNameField = new javax.swing.JTextField();
@@ -114,8 +104,8 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         jLabel3.setText("You have");
 
-        jLabel4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jLabel4.setText("{0}");
+        passwordCountLabel.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        passwordCountLabel.setText("{0}");
 
         jLabel5.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         jLabel5.setText("saved passwords.");
@@ -139,85 +129,75 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        accountOutput.setEditable(false);
-        accountOutput.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        accountOutput.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        DefaultTableModel searchModel = new DefaultTableModel(
+            new Object [][] {},
+            new String [] {
+                "Application", "Username", "Email", "Password"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
 
-        passwordOutput.setEditable(false);
-        passwordOutput.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-
-        jButton2.setBackground(new java.awt.Color(18, 100, 221));
-        jButton2.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("EDIT");
-
-        jButton3.setBackground(new java.awt.Color(255, 102, 102));
-        jButton3.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("REMOVE");
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        };
+        searchPasswordTable.setModel(searchModel
+        );
+        jScrollPane1.setViewportView(searchPasswordTable);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(179, 179, 179)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(185, 185, 185)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(usernameDisplayLabel))
+                                .addGap(73, 73, 73)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(31, 31, 31)
+                                        .addComponent(jLabel1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(usernameDisplayLabel))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(passwordCountLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel5))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
+                                .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5))))
+                                .addComponent(jButton1))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(passwordOutput)
-                            .addComponent(accountOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(78, 78, 78)
-                        .addComponent(jButton2)
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton3)))
-                .addContainerGap(176, Short.MAX_VALUE))
+                        .addGap(35, 35, 35)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(71, 71, 71)
+                .addGap(15, 15, 15)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(usernameDisplayLabel))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4)
+                    .addComponent(passwordCountLabel)
                     .addComponent(jLabel5))
-                .addGap(57, 57, 57)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(accountOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(passwordOutput, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3))
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
 
         jTabbedPane1.addTab("Dashboard", null, jPanel2, "");
@@ -298,7 +278,7 @@ public class Dashboard extends javax.swing.JFrame {
                             .addComponent(appNameField)
                             .addComponent(passwordPMField, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(usernamePMField))))
-                .addContainerGap(237, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,7 +295,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(passwordPMField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(addPasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Add Password", jPanel3);
@@ -371,7 +351,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -382,7 +362,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addContainerGap(88, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("View Passwords", jPanel4);
@@ -409,11 +389,6 @@ public class Dashboard extends javax.swing.JFrame {
 
         symbolsToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         symbolsToggle.setText("Symbols");
-        symbolsToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lsToggleActionPerformed(evt);
-            }
-        });
 
         generatePasswordButton.setBackground(new java.awt.Color(18, 100, 221));
         generatePasswordButton.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
@@ -432,7 +407,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(239, 239, 239)
                 .addComponent(jLabel7)
-                .addContainerGap(248, Short.MAX_VALUE))
+                .addContainerGap(271, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -474,7 +449,7 @@ public class Dashboard extends javax.swing.JFrame {
                     .addComponent(symbolsToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(28, 28, 28)
                 .addComponent(generatePasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Generate Passwords", jPanel5);
@@ -497,7 +472,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(usernameLabel)
                 .addGap(12, 12, 12)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -515,7 +490,7 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        performSearch();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void searchFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchFieldFocusGained
@@ -533,10 +508,6 @@ public class Dashboard extends javax.swing.JFrame {
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         editPassword();
     }//GEN-LAST:event_editButtonActionPerformed
-
-    private void lsToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lsToggleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lsToggleActionPerformed
 
     private void appNameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_appNameFieldFocusGained
         if(appNameField.getText().equals("Application Name")){
@@ -628,6 +599,7 @@ public class Dashboard extends javax.swing.JFrame {
             usernamePMField.setText("Username");
             emailPMField.setText("Email");
             passwordPMField.setText("Password");
+            countPasswords();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error saving password: " + e.getMessage());
         }
@@ -650,6 +622,7 @@ public class Dashboard extends javax.swing.JFrame {
                 fileManager.writePasswords(passwords);
                 loadPasswordsToTable();
                 JOptionPane.showMessageDialog(this, "Password removed successfully!");
+                countPasswords();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Error removing password: " + e.getMessage());
             }
@@ -677,6 +650,7 @@ public class Dashboard extends javax.swing.JFrame {
                     fileManager.writePasswords(passwords);
                     loadPasswordsToTable();
                     JOptionPane.showMessageDialog(this, "Password updated successfully!");
+                    countPasswords();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, "Error updating password: " + e.getMessage());
                 }
@@ -684,6 +658,39 @@ public class Dashboard extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "No password selected.");
         }
+    }
+    
+    private void performSearch(){
+        String searchTerm = searchField.getText().trim();
+        List<PasswordEntry> filteredEntries = filteredEntries(searchTerm);
+        updateTable(filteredEntries);
+    }
+    
+    private List<PasswordEntry> filteredEntries(String searchTerm){
+        if(searchTerm.isEmpty()){
+            return passwords;
+        }
+        return passwords.stream().filter(entry -> entry.matchesSearchTerm(searchTerm)).toList();
+    }
+    
+    private void updateTable(List<PasswordEntry> entries){
+        searchModel.setRowCount(0);
+        
+        for(PasswordEntry entry : entries){
+            searchModel.addRow(new Object[]{
+                entry.getPlatform(),
+                entry.getUsername(),
+                entry.getEmail(),
+                entry.getPassword()
+            });
+        }
+    }
+    private void countPasswords(){
+        int passwordCount = 0;
+        for(int i = 0; i < passwords.size(); i++){
+            passwordCount +=1;
+        }
+        passwordCountLabel.setText(Integer.toString(passwordCount));
     }
     /**
      * @param args the command line arguments
@@ -721,18 +728,14 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField accountOutput;
     private javax.swing.JButton addPasswordButton;
     private javax.swing.JTextField appNameField;
     private javax.swing.JButton editButton;
     private javax.swing.JTextField emailPMField;
     private javax.swing.JButton generatePasswordButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -742,23 +745,26 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToggleButton lowercaseToggle;
     private javax.swing.JToggleButton numbersToggle;
+    private javax.swing.JLabel passwordCountLabel;
     private javax.swing.JTextField passwordLengthInputArea;
-    private javax.swing.JTextField passwordOutput;
     private javax.swing.JTextField passwordOutputField;
     private javax.swing.JTextField passwordPMField;
     private javax.swing.JTable passwordTable;
     private javax.swing.JButton removeButton;
     private javax.swing.JTextField searchField;
+    private javax.swing.JTable searchPasswordTable;
     private javax.swing.JToggleButton symbolsToggle;
     private javax.swing.JToggleButton uppercaseToggle;
     private javax.swing.JLabel usernameDisplayLabel;
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernamePMField;
     // End of variables declaration//GEN-END:variables
+
    
 
 }

@@ -3,10 +3,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- *
- * @author anurra
- */
 public class UserRegistration {
     public static boolean registerUser(String username, String email, String password, String confirmPassword){
         if (!Validator.isValidEmail(email)) {

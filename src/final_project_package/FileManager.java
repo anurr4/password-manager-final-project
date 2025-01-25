@@ -9,10 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author anurra
- */
 public class FileManager implements FileOperations{
     private final File passwordFile;
 

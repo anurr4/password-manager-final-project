@@ -231,23 +231,18 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Franklin Gothic Book" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="name@example.com" noResource="true"/>
             <Property name="actionCommand" type="java.lang.String" value="&lt;Not Set&gt;"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Text Cursor"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="loginEmailFieldFocusGained"/>
-            <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="loginEmailFieldFocusLost"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Franklin Gothic Book" size="14" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Email "/>
+            <Property name="text" type="java.lang.String" value="Username"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">

@@ -2,19 +2,12 @@ package final_project_package;
 
 import java.util.Random;
 
-/**
- *
- * @author anurra
- */
-public class PasswordGenerator {
-       public static final String LOWERCASE_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
-       public static final String UPPERCASE_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-       public static final String NUMBERS = "0123456789";
-       public static final String SPECIAL_CHARACTERS = "!@#$%^&*()_-=+[]{};:,.<>/?";
+public class PasswordGenerator extends AbstractPasswordGenerator {
        
        private final Random random;
        public PasswordGenerator(){random = new Random();}
        
+       @Override
        public String generatePassword(int length, boolean includeUppercase, boolean includeLowercase, boolean includeNumbers, boolean includeSymbols){
            StringBuilder passwordBuilder = new StringBuilder();
            

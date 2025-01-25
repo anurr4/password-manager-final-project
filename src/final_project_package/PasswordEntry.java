@@ -1,14 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package final_project_package;
 
-/**
- *
- * @author anurra
- */
-public class PasswordEntry {
+public class PasswordEntry implements Searchable {
     private String platform;
     private String username;
     private String email;
@@ -51,5 +43,13 @@ public class PasswordEntry {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+    
+    @Override
+    public boolean matchesSearchTerm(String searchTerm){
+        String cleanSearch = searchTerm.trim().toLowerCase();
+        return this.platform.toLowerCase().contains(cleanSearch) ||
+               this.username.toLowerCase().contains(cleanSearch) ||
+               this.email.toLowerCase().contains(cleanSearch);
     }
 }

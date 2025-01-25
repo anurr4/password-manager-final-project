@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package final_project_package;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Anurra
- */
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -130,20 +122,11 @@ public class Login extends javax.swing.JFrame {
         jPasswordField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         loginEmailField.setFont(new java.awt.Font("Franklin Gothic Book", 0, 12)); // NOI18N
-        loginEmailField.setText("name@example.com"); // NOI18N
         loginEmailField.setActionCommand("<Not Set>");
         loginEmailField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        loginEmailField.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                loginEmailFieldFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                loginEmailFieldFocusLost(evt);
-            }
-        });
 
         jLabel3.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
-        jLabel3.setText("Email ");
+        jLabel3.setText("Username");
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         jLabel2.setText("Log In");
@@ -237,18 +220,6 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Invalid username or password");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void loginEmailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loginEmailFieldFocusGained
-        if(loginEmailField.getText().equals("name@example.com")){
-            loginEmailField.setText("");
-        }
-    }//GEN-LAST:event_loginEmailFieldFocusGained
-
-    private void loginEmailFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loginEmailFieldFocusLost
-        if(loginEmailField.getText().isEmpty()){
-            loginEmailField.setText("name@example.com");
-        }
-    }//GEN-LAST:event_loginEmailFieldFocusLost
 
     /**
      * @param args the command line arguments

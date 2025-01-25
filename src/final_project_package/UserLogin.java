@@ -3,10 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-/**
- *
- * @author anurra
- */
+
 public class UserLogin {
     public static boolean loginUser(String username, String password){
         String userDirectoryPath = "Database/" + username;

@@ -4,7 +4,14 @@
  */
 package final_project_package;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -15,6 +22,10 @@ public class Dashboard extends javax.swing.JFrame {
      * Creates new form Dashboard
      */
     private PasswordGenerator passwordGenerator;
+    private FileManager fileManager;
+    private DefaultTableModel model;
+    private List<PasswordEntry> passwords;
+    
     public Dashboard() {
         initComponents();
         setTitle("Password Manager");
@@ -23,6 +34,15 @@ public class Dashboard extends javax.swing.JFrame {
         usernameLabel.setText(Login.loginUsername);
         usernameDisplayLabel.setText(Login.loginUsername);
         passwordGenerator = new PasswordGenerator();
+        model = (DefaultTableModel) passwordTable.getModel();
+        fileManager = new FileManager("Database/" + Login.loginUsername + "/passwords.txt");
+        try {
+            passwords = fileManager.readPasswords();
+        } catch (Exception e) {
+            passwords = new ArrayList<>();
+        }
+        
+        loadPasswordsToTable();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -53,13 +73,13 @@ public class Dashboard extends javax.swing.JFrame {
         appNameField = new javax.swing.JTextField();
         emailPMField = new javax.swing.JTextField();
         passwordPMField = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        addPasswordButton = new javax.swing.JButton();
         usernamePMField = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        editButton = new javax.swing.JButton();
+        removeButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        passwordTable = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         passwordOutputField = new javax.swing.JTextField();
@@ -238,10 +258,15 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setBackground(new java.awt.Color(18, 100, 221));
-        jButton4.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(255, 255, 255));
-        jButton4.setText("Save");
+        addPasswordButton.setBackground(new java.awt.Color(18, 100, 221));
+        addPasswordButton.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
+        addPasswordButton.setForeground(new java.awt.Color(255, 255, 255));
+        addPasswordButton.setText("Save");
+        addPasswordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPasswordButtonActionPerformed(evt);
+            }
+        });
 
         usernamePMField.setFont(new java.awt.Font("Franklin Gothic Book", 0, 14)); // NOI18N
         usernamePMField.setText("Username");
@@ -262,7 +287,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(304, 304, 304)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(addPasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(274, 274, 274)
                         .addComponent(jLabel6))
@@ -289,40 +314,34 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(passwordPMField, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addPasswordButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(103, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Add Password", jPanel3);
 
-        jButton5.setBackground(new java.awt.Color(18, 100, 221));
-        jButton5.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("EDIT");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        editButton.setBackground(new java.awt.Color(18, 100, 221));
+        editButton.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
+        editButton.setForeground(new java.awt.Color(255, 255, 255));
+        editButton.setText("EDIT");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                editButtonActionPerformed(evt);
             }
         });
 
-        jButton6.setBackground(new java.awt.Color(255, 102, 102));
-        jButton6.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
-        jButton6.setForeground(new java.awt.Color(255, 255, 255));
-        jButton6.setText("REMOVE");
+        removeButton.setBackground(new java.awt.Color(255, 102, 102));
+        removeButton.setFont(new java.awt.Font("Franklin Gothic Book", 1, 14)); // NOI18N
+        removeButton.setForeground(new java.awt.Color(255, 255, 255));
+        removeButton.setText("REMOVE");
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeButtonActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+        DefaultTableModel model = new DefaultTableModel(
+            new Object [][] {},
             new String [] {
                 "Application", "Username", "Email", "Password"
             }
@@ -334,8 +353,9 @@ public class Dashboard extends javax.swing.JFrame {
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
-        });
-        jScrollPane2.setViewportView(jTable1);
+        };
+        passwordTable.setModel(model);
+        jScrollPane2.setViewportView(passwordTable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -345,9 +365,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(170, 170, 170)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(215, 215, 215)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -360,8 +380,8 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(editButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(85, Short.MAX_VALUE))
         );
 
@@ -380,33 +400,18 @@ public class Dashboard extends javax.swing.JFrame {
 
         uppercaseToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         uppercaseToggle.setText("Uppercase");
-        uppercaseToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                uppercaseToggleActionPerformed(evt);
-            }
-        });
 
         lowercaseToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         lowercaseToggle.setText("Lowercase");
-        lowercaseToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lowercaseToggleActionPerformed(evt);
-            }
-        });
 
         numbersToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         numbersToggle.setText("Numbers");
-        numbersToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                numbersToggleActionPerformed(evt);
-            }
-        });
 
         symbolsToggle.setFont(new java.awt.Font("Franklin Gothic Book", 0, 18)); // NOI18N
         symbolsToggle.setText("Symbols");
         symbolsToggle.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                symbolsToggleActionPerformed(evt);
+                lsToggleActionPerformed(evt);
             }
         });
 
@@ -525,25 +530,13 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_searchFieldFocusLost
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
+    private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
+        editPassword();
+    }//GEN-LAST:event_editButtonActionPerformed
 
-    private void uppercaseToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uppercaseToggleActionPerformed
+    private void lsToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lsToggleActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_uppercaseToggleActionPerformed
-
-    private void lowercaseToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowercaseToggleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lowercaseToggleActionPerformed
-
-    private void numbersToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numbersToggleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_numbersToggleActionPerformed
-
-    private void symbolsToggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_symbolsToggleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_symbolsToggleActionPerformed
+    }//GEN-LAST:event_lsToggleActionPerformed
 
     private void appNameFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_appNameFieldFocusGained
         if(appNameField.getText().equals("Application Name")){
@@ -605,6 +598,93 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_generatePasswordButtonActionPerformed
 
+    private void addPasswordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPasswordButtonActionPerformed
+        addPassword();
+    }//GEN-LAST:event_addPasswordButtonActionPerformed
+
+    private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed
+        removePassword();
+    }//GEN-LAST:event_removeButtonActionPerformed
+
+    private void addPassword() {
+        String platform = appNameField.getText();
+        String username = usernamePMField.getText();
+        String email = emailPMField.getText();
+        String password = passwordPMField.getText();
+
+        if (platform.isEmpty() || username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "All fields are required!");
+            return;
+        }
+
+        PasswordEntry entry = new PasswordEntry(platform, username, email, password);
+        passwords.add(entry);
+
+        try {
+            fileManager.writePasswords(passwords);
+            loadPasswordsToTable();
+            JOptionPane.showMessageDialog(this, "Password added successfully!");
+            appNameField.setText("Application Name");
+            usernamePMField.setText("Username");
+            emailPMField.setText("Email");
+            passwordPMField.setText("Password");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error saving password: " + e.getMessage());
+        }
+    }
+
+    private void loadPasswordsToTable() {
+        model.setRowCount(0); // Clear the table
+
+        for (PasswordEntry entry : passwords) {
+            model.addRow(new Object[]{entry.getPlatform(), entry.getUsername(), entry.getEmail(), entry.getPassword()});
+        }
+    }
+
+    private void removePassword() {
+        int selectedRow = passwordTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            passwords.remove(selectedRow);
+
+            try {
+                fileManager.writePasswords(passwords);
+                loadPasswordsToTable();
+                JOptionPane.showMessageDialog(this, "Password removed successfully!");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Error removing password: " + e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No password selected.");
+        }
+    }
+
+    private void editPassword() {
+        int selectedRow = passwordTable.getSelectedRow();
+        if (selectedRow >= 0) {
+            String newPlatform = JOptionPane.showInputDialog(this, "Enter new platform:");
+            String newUsername = JOptionPane.showInputDialog(this, "Enter new username:");
+            String newEmail = JOptionPane.showInputDialog(this, "Enter new email:");
+            String newPassword = JOptionPane.showInputDialog(this, "Enter new password:");
+
+            if (newPlatform != null && newUsername != null && newEmail != null && newPassword != null) {
+                PasswordEntry entry = passwords.get(selectedRow);
+                entry.setPlatform(newPlatform);
+                entry.setUsername(newUsername);
+                entry.setEmail(newEmail);
+                entry.setPassword(newPassword);
+
+                try {
+                    fileManager.writePasswords(passwords);
+                    loadPasswordsToTable();
+                    JOptionPane.showMessageDialog(this, "Password updated successfully!");
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, "Error updating password: " + e.getMessage());
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "No password selected.");
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -642,15 +722,14 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField accountOutput;
+    private javax.swing.JButton addPasswordButton;
     private javax.swing.JTextField appNameField;
+    private javax.swing.JButton editButton;
     private javax.swing.JTextField emailPMField;
     private javax.swing.JButton generatePasswordButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -665,13 +744,14 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JToggleButton lowercaseToggle;
     private javax.swing.JToggleButton numbersToggle;
     private javax.swing.JTextField passwordLengthInputArea;
     private javax.swing.JTextField passwordOutput;
     private javax.swing.JTextField passwordOutputField;
     private javax.swing.JTextField passwordPMField;
+    private javax.swing.JTable passwordTable;
+    private javax.swing.JButton removeButton;
     private javax.swing.JTextField searchField;
     private javax.swing.JToggleButton symbolsToggle;
     private javax.swing.JToggleButton uppercaseToggle;
@@ -679,7 +759,6 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel usernameLabel;
     private javax.swing.JTextField usernamePMField;
     // End of variables declaration//GEN-END:variables
-
-
+   
 
 }

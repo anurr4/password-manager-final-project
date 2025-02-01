@@ -7,7 +7,7 @@ public class Validator {
         return Pattern.matches(emailRegex, email);
     }
     public static boolean isValidPassword(String password){
-        String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
+        String passwordRegex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
         return Pattern.matches(passwordRegex, password);
     }
 }

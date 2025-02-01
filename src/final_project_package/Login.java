@@ -210,8 +210,8 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_backRegisterButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        Login.loginUsername = loginEmailField.getText();
-        Login.password = new String(jPasswordField1.getPassword());
+        loginUsername = loginEmailField.getText();
+        password = new String(jPasswordField1.getPassword());
         if(UserLogin.loginUser(loginUsername, password)){
             JOptionPane.showMessageDialog(null, "Login Successful!");
             new Dashboard().setVisible(true);

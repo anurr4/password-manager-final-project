@@ -5,14 +5,17 @@
         <group>
             <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/FileOperations.java</file>
             <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/Login.java</file>
-            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/UserLogin.java</file>
             <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/Register.java</file>
-            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/UserRegistration.java</file>
-            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/Dashboard.java</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/Searchable.java</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/AbstractPasswordGenerator.java</file>
             <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/Validator.java</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/Dashboard.java</file>
             <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/PasswordGenerator.java</file>
-            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/FileManager.java</file>
             <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/PasswordEntry.java</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/Database/gerild/credentials.txt</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/UserLogin.java</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/UserRegistration.java</file>
+            <file>file:/C:/Users/geril/Documents/password-manager-final-project/src/final_project_package/FileManager.java</file>
         </group>
     </open-files>
 </project-private>

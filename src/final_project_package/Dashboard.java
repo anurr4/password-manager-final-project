@@ -606,8 +606,28 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     private void loadPasswordsToTable() {
-        model.setRowCount(0); // Clear the table
+        model.setRowCount(0); // Clear existing rows
 
+        int n = passwords.size();
+        boolean swapped;
+
+        for (int i = 0; i < n - 1; i++) {
+            swapped = false; // Reset swapped flag for this pass
+            for (int j = 0; j < n - i - 1; j++) {
+                if (passwords.get(j).getPlatform().compareToIgnoreCase(passwords.get(j + 1).getPlatform()) > 0) {
+                    // Swap entries
+                    PasswordEntry temp = passwords.get(j);
+                    passwords.set(j, passwords.get(j + 1));
+                    passwords.set(j + 1, temp);
+                    swapped = true; // Mark that a swap occurred
+                }
+            }
+            // If no swaps occurred, list is sorted, break early
+            if (!swapped) {
+                break;
+            }
+        }
+        // Populate the JTable with sorted passwords
         for (PasswordEntry entry : passwords) {
             model.addRow(new Object[]{entry.getPlatform(), entry.getUsername(), entry.getEmail(), entry.getPassword()});
         }
